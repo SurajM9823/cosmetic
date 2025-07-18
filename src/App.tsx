@@ -1,3 +1,4 @@
+// src/App.tsx
 import React, { useState, useEffect } from 'react';
 import Loader from './components/Loader';
 import Header from './components/Header';
@@ -28,7 +29,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
       <Header />
       <Hero />
       <Categories />
@@ -40,7 +41,7 @@ function App() {
       <Footer />
       <FlashSalesPopup />
       <ChatBox />
-    </div>
+    </main>
   );
 }
 

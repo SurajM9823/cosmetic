@@ -3,7 +3,6 @@ import { X, Zap, Clock, ShoppingBag, ArrowRight } from 'lucide-react';
 
 const FlashSalesPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   const flashSales = [
     {
@@ -32,11 +31,37 @@ const FlashSalesPopup = () => {
       discount: 43,
       image: 'https://images.pexels.com/photos/2533189/pexels-photo-2533189.jpeg?auto=compress&cs=tinysrgb&w=300',
       timeLeft: '3h 30m'
+    },
+    {
+      id: 4,
+      name: 'Hydrating Moisturizer',
+      originalPrice: 59.99,
+      salePrice: 34.99,
+      discount: 42,
+      image: 'https://images.pexels.com/photos/935789/pexels-photo-935789.jpeg?auto=compress&cs=tinysrgb&w=300',
+      timeLeft: '2h 50m'
+    },
+    {
+      id: 5,
+      name: 'Bold Eyeliner Duo',
+      originalPrice: 29.99,
+      salePrice: 19.99,
+      discount: 33,
+      image: 'https://images.pexels.com/photos/2533189/pexels-photo-2533189.jpeg?auto=compress&cs=tinysrgb&w=300',
+      timeLeft: '1h 20m'
+    },
+    {
+      id: 6,
+      name: 'Matte Foundation',
+      originalPrice: 79.99,
+      salePrice: 44.99,
+      discount: 44,
+      image: 'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?auto=compress&cs=tinysrgb&w=300',
+      timeLeft: '2h 10m'
     }
   ];
 
   useEffect(() => {
-    // Show popup after 3 seconds
     const timer = setTimeout(() => {
       setIsOpen(true);
     }, 3000);
@@ -44,110 +69,101 @@ const FlashSalesPopup = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      const slideTimer = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % flashSales.length);
-      }, 3000);
-
-      return () => clearInterval(slideTimer);
-    }
-  }, [isOpen, flashSales.length]);
-
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-scale-in">
-        {/* Close Button */}
-        <button
-          onClick={() => setIsOpen(false)}
-          className="absolute top-3 right-3 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200 z-10"
-        >
-          <X className="w-4 h-4 text-gray-600" />
-        </button>
+    <>
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] flex flex-col animate-scale-in">
+            {/* Close Button */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-3 right-3 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200 z-10"
+            >
+              <X className="w-4 h-4 text-gray-600" />
+            </button>
 
-        {/* Header */}
-        <div className="bg-gradient-to-r from-red-500 to-pink-500 p-4 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Zap className="w-5 h-5 animate-pulse" />
-              <span className="font-bold">⚡ Flash Sale</span>
+            {/* Header */}
+            <div className="bg-gradient-to-r from-red-600 to-pink-600 p-4 text-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Zap className="w-5 h-5 animate-pulse" />
+                  <span className="font-bold text-lg">⚡ Flash Sale</span>
+                </div>
+                <div className="flex items-center space-x-1 text-sm">
+                  <Clock className="w-4 h-4" />
+                  <span>Limited Time!</span>
+                </div>
+              </div>
+              <a
+                href="#explore"
+                className="flex items-center space-x-1 text-white hover:text-yellow-300 text-sm font-medium mt-2 transition-colors duration-300"
+              >
+                <span>Explore</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </a>
             </div>
-            <div className="flex items-center space-x-1 text-sm">
-              <Clock className="w-4 h-4" />
-              <span>Limited Time!</span>
+
+            {/* Scrollable Product List */}
+            <div className="flex-1 overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {flashSales.map((product) => (
+                  <div
+                    key={product.id}
+                    className="group bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
+                  >
+                    <div className="relative mb-3">
+                      <div className="w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                        -{product.discount}%
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-red-500 transition-colors duration-300 line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg font-bold text-red-500">${product.salePrice}</span>
+                        <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-gray-600">
+                        <span>⏰ Ends in: {product.timeLeft}</span>
+                        <span>🔥 Limited Stock</span>
+                      </div>
+                      <a
+                        href="#add-to-cart"
+                        className="flex items-center space-x-1 text-red-500 hover:text-red-600 text-sm font-medium transition-colors duration-300"
+                      >
+                        <ShoppingBag className="w-4 h-4" />
+                        <span>Explore</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Explore More Button at Bottom */}
+            <div className="bg-white p-4 border-t border-gray-100">
+              <a
+                href="#explore-more"
+                className="flex items-center justify-center space-x-1 text-red-500 hover:text-red-600 text-sm font-medium transition-colors duration-300"
+              >
+                <span>Explore More</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </a>
             </div>
           </div>
         </div>
-
-        {/* Product Slider */}
-        <div className="relative h-80 overflow-hidden">
-          {flashSales.map((product, index) => (
-            <div
-              key={product.id}
-              className={`absolute inset-0 p-6 transition-all duration-500 ${
-                index === currentSlide ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-              }`}
-            >
-              <div className="h-full flex flex-col">
-                {/* Product Image */}
-                <div className="relative flex-1 mb-4">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover rounded-xl"
-                  />
-                  <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                    -{product.discount}%
-                  </div>
-                </div>
-
-                {/* Product Info */}
-                <div className="space-y-3">
-                  <h3 className="font-semibold text-gray-900 text-lg">
-                    {product.name}
-                  </h3>
-                  
-                  <div className="flex items-center space-x-3">
-                    <span className="text-2xl font-bold text-red-500">
-                      ${product.salePrice}
-                    </span>
-                    <span className="text-lg text-gray-500 line-through">
-                      ${product.originalPrice}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-sm text-gray-600">
-                    <span>⏰ Ends in: {product.timeLeft}</span>
-                    <span>🔥 Limited Stock</span>
-                  </div>
-
-                  <button className="w-full bg-gradient-to-r from-red-500 to-pink-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
-                    <ShoppingBag className="w-5 h-5" />
-                    <span>Grab This Deal</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {flashSales.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-red-500 w-6' : 'bg-gray-300'
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

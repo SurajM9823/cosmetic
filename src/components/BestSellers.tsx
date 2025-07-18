@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { TrendingUp, ShoppingBag, Star, ArrowRight } from 'lucide-react';
+import tiktokVideo from '../assets/tiktok.mp4'; // Adjust path if BestSellers.tsx is in a subdirectory
 
 const BestSellers = () => {
   const bestSellers = [
@@ -9,7 +10,8 @@ const BestSellers = () => {
       price: 42.99,
       image: 'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?auto=compress&cs=tinysrgb&w=200',
       sold: 1234,
-      rating: 4.9
+      rating: 4.9,
+      discount: 30
     },
     {
       id: 2,
@@ -17,7 +19,8 @@ const BestSellers = () => {
       price: 28.99,
       image: 'https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=200',
       sold: 987,
-      rating: 4.8
+      rating: 4.8,
+      discount: 25
     },
     {
       id: 3,
@@ -25,7 +28,8 @@ const BestSellers = () => {
       price: 35.99,
       image: 'https://images.pexels.com/photos/2533189/pexels-photo-2533189.jpeg?auto=compress&cs=tinysrgb&w=200',
       sold: 876,
-      rating: 4.7
+      rating: 4.7,
+      discount: 20
     },
     {
       id: 4,
@@ -33,7 +37,8 @@ const BestSellers = () => {
       price: 52.99,
       image: 'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?auto=compress&cs=tinysrgb&w=200',
       sold: 765,
-      rating: 4.9
+      rating: 4.9,
+      discount: 35
     },
     {
       id: 5,
@@ -41,7 +46,8 @@ const BestSellers = () => {
       price: 39.99,
       image: 'https://images.pexels.com/photos/935789/pexels-photo-935789.jpeg?auto=compress&cs=tinysrgb&w=200',
       sold: 654,
-      rating: 4.6
+      rating: 4.6,
+      discount: 15
     },
     {
       id: 6,
@@ -49,7 +55,8 @@ const BestSellers = () => {
       price: 19.99,
       image: 'https://images.pexels.com/photos/2533189/pexels-photo-2533189.jpeg?auto=compress&cs=tinysrgb&w=200',
       sold: 543,
-      rating: 4.5
+      rating: 4.5,
+      discount: 10
     }
   ];
 
@@ -59,10 +66,14 @@ const BestSellers = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && videoRef.current) {
-            videoRef.current.play();
-          } else if (videoRef.current) {
-            videoRef.current.pause();
+          if (videoRef.current) {
+            if (entry.isIntersecting && videoRef.current.readyState >= 2) {
+              videoRef.current.play().catch((error) => {
+                console.error('Video playback failed:', error);
+              });
+            } else {
+              videoRef.current.pause();
+            }
           }
         });
       },
@@ -83,22 +94,6 @@ const BestSellers = () => {
   return (
     <section className="py-16 bg-white/20 backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-4">
-            <TrendingUp className="w-4 h-4 text-yellow-300" />
-            <span className="text-sm font-medium text-white">Trending Now</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            This Month's{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-purple-600">
-              Best Sellers
-            </span>
-          </h2>
-          <p className="text-white/90 max-w-2xl mx-auto text-sm">
-            See what everyone's talking about. These are the products flying off our shelves.
-          </p>
-        </div>
-
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Best Seller Cards (75% width, slightly larger) */}
           <div className="w-full lg:w-[75%]">
@@ -112,8 +107,8 @@ const BestSellers = () => {
                     <div className="absolute -top-2 -left-2 w-5 h-5 bg-gradient-to-r from-rose-500 to-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
                       {index + 1}
                     </div>
-                    <div className="absolute -top-2 -right-2 w-12 h-5 bg-gradient-to-r from-rose-500 to-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                      30% Off
+                    <div className="absolute -top-2 -right-2 bg-gradient-to-r from-rose-500 to-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold px-3 py-1 min-w-[60px] sm:min-w-[70px]">
+                      <span>{product.discount}% Off</span>
                     </div>
                     <div className="w-full h-28 bg-gray-100 rounded-xl overflow-hidden">
                       <img
@@ -163,16 +158,12 @@ const BestSellers = () => {
             <div className="w-full h-[500px] bg-white/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <video
                 ref={videoRef}
-                autoPlay
                 muted
                 loop
                 playsInline
                 className="w-full h-full object-cover"
               >
-                <source
-                  src="https://player.vimeo.com/progressive_redirect/playback/885773930/rendition/720p/file.mp4?loc=external&signature=5e5b0d6b2e6c7f8b1a7e2b6b1b8e8c8b2f9e2b6b1b8e8c8b2f9e2b6b1b8e8c8b"
-                  type="video/mp4"
-                />
+                <source src={tiktokVideo} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-80"></div>

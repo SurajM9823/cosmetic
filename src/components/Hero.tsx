@@ -80,9 +80,9 @@ const Hero = () => {
           </div>
 
           {/* Content */}
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="container mx-auto px-4 flex justify-center">
-              <div className="max-w-2xl text-center">
+          <div className="relative z-20 h-full flex items-center justify-center">
+            <div className="container mx-auto px-6 sm:px-8 md:px-4 flex justify-center">
+              <div className="max-w-xl w-full sm:max-w-2xl text-center px-8 sm:px-0">
                 <div className={`space-y-6 transform transition-all duration-1000 delay-300 ${
                   index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                 }`}>
@@ -91,20 +91,20 @@ const Hero = () => {
                     <span className="text-xs font-medium text-white font-body">{slide.subtitle}</span>
                   </div>
                   
-                  <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight font-heading">
+                  <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight font-heading">
                     {slide.title}
                   </h1>
                   
-                  <p className="text-sm md:text-base text-white/90 max-w-md mx-auto leading-relaxed font-body">
+                  <p className="text-xs sm:text-sm md:text-base text-white/90 max-w-md mx-auto leading-relaxed font-body">
                     {slide.description}
                   </p>
 
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4 justify-center">
-                    <button className="group bg-white text-gray-900 px-5 py-2 rounded-full font-medium hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg text-xs font-body">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 justify-center items-center">
+                    <button className="group bg-white text-gray-900 px-4 sm:px-5 py-2 rounded-full font-medium hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg text-xs font-body w-auto">
                       <ShoppingBag className="w-4 h-4 group-hover:animate-bounce" />
                       <span>Shop Now</span>
                     </button>
-                    <button className="bg-transparent text-white px-5 py-2 rounded-full font-medium border border-white/30 hover:border-white hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-xs font-body">
+                    <button className="bg-transparent text-white px-4 sm:px-5 py-2 rounded-full font-medium border border-white/30 hover:border-white hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-xs font-body w-auto">
                       View Collection
                     </button>
                   </div>
@@ -118,24 +118,24 @@ const Hero = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 z-20"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 z-30"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 z-20"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 z-30"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-30">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
               index === currentSlide ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
             }`}
           />
